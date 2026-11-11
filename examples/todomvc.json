@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Adds and completes a todo",
+    "steps": [
+      {
+        "action": "fill",
+        "selector": "input.new-todo",
+        "value": "Buy groceries"
+      },
+      {
+        "action": "press",
+        "selector": "input.new-todo",
+        "key": "Enter"
+      },
+      {
+        "action": "expectText",
+        "selector": ".todo-list li",
+        "text": "Buy groceries"
+      },
+      {
+        "action": "click",
+        "selector": ".todo-list li .toggle"
+      },
+      {
+        "action": "expectVisible",
+        "selector": ".todo-list li.completed"
+      }
+    ]
+  }
+]
