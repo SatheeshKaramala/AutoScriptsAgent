@@ -4,12 +4,9 @@ const agentDemoMode = process.env.AUTOSCRIPTS_AGENT_DEMO === "1";
 
 export default defineConfig({
   testDir: "./tests",
-  ...(agentDemoMode
-    ? {
-        use: {
-          headless: false,
-          launchOptions: { slowMo: 700 },
-        },
-      }
-    : {}),
+  use: {
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+    ...(agentDemoMode ? { headless: false, launchOptions: { slowMo: 700 } } : {}),
+  },
 });

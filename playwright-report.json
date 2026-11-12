@@ -1,0 +1,180 @@
+﻿{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\skaramala\\AutoScriptsAgent\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/generated/todomvc.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "C:\\Users\\skaramala\\AutoScriptsAgent\\playwright.config.ts",
+    "rootDir": "C:/Users/skaramala/AutoScriptsAgent/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/skaramala/AutoScriptsAgent/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/skaramala/AutoScriptsAgent/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\skaramala\\AutoScriptsAgent\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests",
+        "snapshotDir": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0",
+    "workers": 6,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "generated\\todomvc.spec.ts",
+      "file": "generated/todomvc.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Generated manual test cases",
+          "file": "generated/todomvc.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Adds and completes a todo",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 30201,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts",
+                            "column": 43,
+                            "line": 7
+                          },
+                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input.new-todo1')\u001b[22m\n\n\n   5 |   test(\"Adds and completes a todo\", async ({ page }) => {\n   6 |     await page.goto(\"https://demo.playwright.dev/todomvc\");\n>  7 |     await page.locator(\"input.new-todo1\").fill(\"Buy groceries\");\n     |                                           ^\n   8 |     await page.locator(\"input.new-todo\").press(\"Enter\");\n   9 |     await expect(page.locator(\".todo-list li\")).toContainText(\"Buy groceries\");\n  10 |     await page.locator(\".todo-list li .toggle\").click();\n    at C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts:7:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-12T08:36:21.548Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\skaramala\\AutoScriptsAgent\\test-results\\generated-todomvc-Generate-ee6c4-s-Adds-and-completes-a-todo\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\skaramala\\AutoScriptsAgent\\test-results\\generated-todomvc-Generate-ee6c4-s-Adds-and-completes-a-todo\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\skaramala\\AutoScriptsAgent\\test-results\\generated-todomvc-Generate-ee6c4-s-Adds-and-completes-a-todo\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "4df4154bc2800c5acdf8-4147add7bcc7a6317647",
+              "file": "generated/todomvc.spec.ts",
+              "line": 5,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-12T08:36:20.831Z",
+    "duration": 31657.797,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

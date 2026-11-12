@@ -2,10 +2,10 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Generated manual test cases", () => {
-  test("Add a todo named Buy groceries and verify it appears in the list", async ({ page }) => {
-    await page.goto("https://demo.playwright.dev/todomvc");
-    await page.locator("input").fill("Buy groceries");
-    await page.locator("input").press("Enter");
-    await expect(page.locator("[aria-label=\"Toggle Todo\"]")).toBeVisible();
+  test("Search for Manikanta is blocked by Google, so no search-result link is available to click.", async ({ page }) => {
+    await page.goto("https://www.google.com/");
+    await page.locator("[id=\"ti6dpd\"]").fill("Manikanta");
+    await page.locator("[id=\"ti6dpd\"]").press("Enter");
+    await expect(page.locator("body>div>div>a")).toContainText("Why did this happen?");
   });
 });

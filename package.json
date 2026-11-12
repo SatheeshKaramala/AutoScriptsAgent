@@ -7,8 +7,9 @@
     "build": "tsc",
     "generate": "node dist/cli.js",
     "agent": "npm run build && node dist/agent.js",
+    "triage": "npm run build && node dist/triage.js",
     "test": "playwright test",
-    "test:unit": "npm run build && node --test dist/generator.test.js dist/agent.test.js",
+    "test:unit": "npm run build && node --test dist/generator.test.js dist/agent.test.js dist/triage.test.js",
     "sample": "npm run build && npm run generate -- --url https://demo.playwright.dev/todomvc --cases examples/todomvc.json --out tests/generated/todomvc.spec.ts",
     "test:sample": "npm run sample && playwright test tests/generated/todomvc.spec.ts"
   },
@@ -21,6 +22,7 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "dependencies": {
-    "@github/copilot-sdk": "^1.0.31"
+    "@github/copilot-sdk": "^1.0.31",
+    "fflate": "^0.8.3"
   }
 }

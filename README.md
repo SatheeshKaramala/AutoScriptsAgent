@@ -44,6 +44,42 @@ npm.cmd run agent -- --url https://your-site.example --goal "Add a todo and veri
 
 The generated spec defaults to `tests/generated/agent.spec.ts`. Use `--out` to select another `.spec.ts` path inside `tests/generated`. Install the Playwright browser binary if needed with `npx playwright install chromium`.
 
+## Playwright failure triage
+
+The read-only triage agent reviews failed and flaky tests from a Playwright JSON report. It compares retry attempts, examines error/output and step summaries, extracts action/network/error evidence from `trace.zip`, and can inspect a small number of attached screenshots. It asks for explicit approval before sending selected diagnostics and screenshots to GitHub Copilot. It classifies evidence as a likely product bug, likely flaky test, environment/infrastructure issue, or insufficient evidence, then suggests debugging steps. After a successful analysis, it saves a standalone HTML report under `triage-reports/`. It does not edit tests or source files. For safety, attachment files are only read when they resolve inside the current project workspace.
+
+To inspect a failed locator and discover likely alternatives from the page's current DOM, add `--inspect-locators`. In an interactive terminal, triage shows the URL and failed selector and asks before opening the page in a fresh browser context with no saved login state. In a non-interactive terminal, the flag itself is the explicit approval. It examines visible interactive elements, creates candidate selectors from their DOM attributes, ranks candidates against the failed selector and action, and verifies that the best candidate uniquely matches a visible element. The terminal and HTML report show the failed locator, likely intended locator, confidence, and evidence separately. A high-confidence candidate means its element type and selector name closely match the failed locator and it uniquely matches a visible element in the current DOM; it is not proof of what existed during the original failure. The check blocks non-GET/HEAD requests and all cross-origin requests. It does not click or fill controls, but page loads can still have server-side effects. Authentication, app state, timing, or later page changes can affect results. Upload consent to Copilot remains separate; `--inspect-locators` never approves an upload.
+
+Playwright is configured to retain traces and screenshots on failure. First run the tests and save the JSON report:
+
+```powershell
+npx.cmd playwright test --reporter=json | Out-File -FilePath playwright-report.json -Encoding utf8
+```
+
+Then run triage:
+
+```powershell
+npm.cmd run triage -- --report playwright-report.json
+```
+
+For an explicitly approved live locator check:
+
+```powershell
+npm.cmd run triage -- --report playwright-report.json --inspect-locators
+```
+
+Review the listed test names and type `yes` only if you consent to send the selected error/output, sanitized trace events, up to four screenshots, and any live locator verification results to GitHub Copilot. Diagnostic data and screenshots may contain sensitive information. If you decline Copilot upload after a locator check, triage still saves a local HTML report of the check. The analysis is a hypothesis, not proof; verify the suggested cause and debugging steps yourself.
+
+Open the newest `triage-reports/triage-report-*.html` file in a browser to view and share the local HTML artifact. The `triage-reports/` directory is git-ignored by default because reports may contain diagnostic details.
+
+For a non-interactive terminal, `--yes` explicitly approves sending the report's selected diagnostics without asking again. Use it only after reviewing what the report may contain:
+
+```powershell
+npm.cmd run triage -- --report playwright-report.json --yes
+```
+
+The report includes only tests that failed unexpectedly or passed after a retry. If the run failed, PowerShell may report a non-zero test-run exit status even though it wrote `playwright-report.json`.
+
 Example case file:
 
 ```json
