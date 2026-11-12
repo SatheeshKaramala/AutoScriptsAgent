@@ -9,6 +9,7 @@ import {
   summarizeTrace,
   extractTraceLocatorTarget,
   locatorCandidates,
+  expectedTextFromErrors,
 } from "./triage.js";
 
 test("collects unexpected and flaky Playwright tests with their retry evidence", () => {
@@ -137,6 +138,17 @@ test("validates the Copilot triage response schema", () => {
     }),
   );
   assert.equal(parsed?.classification, "likely_flaky_test");
+  const locatorIssue = parseAnalysis(
+    JSON.stringify({
+      classification: "likely_test_locator_issue",
+      confidence: "high",
+      summary: "The failed selector did not match; the matching candidate did.",
+      evidence: ["Failure snapshot contains the expected text in the candidate."],
+      next_debugging_steps: ["Replace the mistyped test selector."],
+      caveat: "Confirm the state matches the intended test.",
+    }),
+  );
+  assert.equal(locatorIssue?.classification, "likely_test_locator_issue");
   assert.equal(parseAnalysis('{"classification":"product bug"}'), undefined);
 });
 
@@ -223,28 +235,47 @@ test("extracts a failed locator and query-free page URL from a trace", () => {
         }),
         JSON.stringify({
           type: "frame-snapshot",
-          snapshot: { frameUrl: "https://example.test/todos?token=secret" },
+          snapshot: {
+            frameUrl: "https://example.test/todos",
+            html: ["HTML", {}, ["BODY", {}, ["UL", { class: "todo-list" }, ["LI", {}, "Buy groceries"]]]],
+          },
+        }),
+        JSON.stringify({
+          type: "before",
+          method: "expect",
+          params: { selector: ".broken li", expectedText: [{ string: "Buy groceries" }] },
+        }),
+        JSON.stringify({
+          type: "frame-snapshot",
+          snapshot: { frameUrl: "https://example.test/todos?token=secret", html: ["HTML", {}, ["BODY"]] },
         }),
       ].join("\n"),
     ),
   });
 
-  assert.deepEqual(extractTraceLocatorTarget(archive), {
-    url: "https://example.test/todos",
-    selector: "input.new-todo1",
-    action: "fill",
-  });
+  const target = extractTraceLocatorTarget(archive);
+  assert.equal(target.url, "https://example.test/todos");
+  assert.equal(target.selector, ".broken li");
+  assert.equal(target.action, "expect");
+  assert.equal(
+    target.snapshotElements?.some(
+      (element) => element.text === "Buy groceries" && element.selectors.includes("ul.todo-list li"),
+    ),
+    true,
+  );
   assert.deepEqual(extractTraceLocatorTarget(strToU8("not a zip")), {});
 });
 
-test("ranks a unique expected locator from the page DOM above unrelated controls", () => {
-  const candidates = locatorCandidates("input.new-todo1", "fill", [
+test("ranks a unique expected locator from matching selector structure in the page DOM", () => {
+  const candidates = locatorCandidates("input.new-todo1", "fill", undefined, [
     {
       tag: "input",
       id: "",
       classes: ["new-todo"],
       attributes: { placeholder: "What needs to be done?" },
       description: '<input class="new-todo">',
+      text: "",
+      selectors: ["input.new-todo"],
     },
     {
       tag: "button",
@@ -252,11 +283,47 @@ test("ranks a unique expected locator from the page DOM above unrelated controls
       classes: [],
       attributes: {},
       description: '<button id="clear-completed">',
+      text: "",
+      selectors: ["#clear-completed"],
     },
   ]);
   assert.equal(candidates[0].selector, "input.new-todo");
-  assert.equal(candidates[0].score, 120);
+  assert.equal(candidates[0].score, 125);
   assert.match(candidates[0].reason, /matching class name/);
+});
+
+test("uses expected assertion text to rank a matching list-item path", () => {
+  const candidates = locatorCandidates(".tojalksdj-laskjdfst lisat", "toContainText", "Buy groceries", [
+    {
+      tag: "li",
+      id: "",
+      classes: [],
+      attributes: {},
+      description: "<li>",
+      text: "Buy groceries",
+      selectors: ["li", "ul.todo-list li"],
+    },
+    {
+      tag: "ul",
+      id: "",
+      classes: ["todo-list"],
+      attributes: {},
+      description: '<ul class="todo-list">',
+      text: "Buy groceries",
+      selectors: ["ul.todo-list"],
+    },
+  ]);
+  assert.equal(candidates[0].selector, "ul.todo-list li");
+  assert.equal(candidates[0].score, 165);
+  assert.match(candidates[0].reason, /expected assertion text/);
+  assert.equal(candidates[0].matchesExpectedText, true);
+});
+
+test("extracts expected text from assertion diagnostics", () => {
+  assert.equal(
+    expectedTextFromErrors([`Expected substring: "\u001b[32mBuy groceries\u001b[39m"`]),
+    "Buy groceries",
+  );
 });
 
 test("renders a safe HTML triage report with the diagnosis and retry history", () => {
@@ -321,6 +388,7 @@ test("renders a safe HTML triage report with the diagnosis and retry history", (
           score: 120,
           reason: "same element type (input); matching class name after numeric-suffix normalization",
           matchedToken: "new-todo",
+          source: "current page",
         },
         evidence: [
           "Failed locator matched 0 elements on the inspected page.",
@@ -334,7 +402,7 @@ test("renders a safe HTML triage report with the diagnosis and retry history", (
   assert.match(html, /Attempt 1: failed/);
   assert.match(html, /&lt;script&gt;alert\(1\)&lt;\/script&gt;/);
   assert.match(html, /&lt;img src=x onerror=alert\(1\)&gt;/);
-  assert.match(html, /Live locator verification/);
+  assert.match(html, /Locator verification/);
   assert.match(html, /Failed locator matched no elements on the inspected page/);
   assert.match(html, /Likely intended locator/);
   assert.match(html, /input\.new-todo/);

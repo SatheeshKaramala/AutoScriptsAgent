@@ -4,9 +4,10 @@ import { expect, test } from "@playwright/test";
 test.describe("Generated manual test cases", () => {
   test("Adds and completes a todo", async ({ page }) => {
     await page.goto("https://demo.playwright.dev/todomvc");
-    await page.locator("input.new-todo1").fill("Buy groceries");
+    await page.locator("input.new-todo").fill("Buy groceries");
     await page.locator("input.new-todo").press("Enter");
-    await expect(page.locator(".todo-list li")).toContainText("Buy groceries");
+    //await expect(page.locator(".todo-list li")).toContainText("Buy groceries");
+    await expect(page.locator(".ul.todo-list li")).toContainText("Buy groceries");
     await page.locator(".todo-list li .toggle").click();
     await expect(page.locator(".todo-list li.completed")).toBeVisible();
   });

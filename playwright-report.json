@@ -112,29 +112,32 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30201,
+                      "status": "failed",
+                      "duration": 6930,
                       "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ul.todo-list li')\nExpected substring: \u001b[32m\"Buy groceries\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.ul.todo-list li') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ul.todo-list li')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ul.todo-list li')\nExpected substring: \u001b[32m\"Buy groceries\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.ul.todo-list li') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ul.todo-list li')\u001b[22m\n\n    at C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts:10:52",
+                        "location": {
+                          "file": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts",
+                          "column": 52,
+                          "line": 10
+                        },
+                        "snippet": " \u001b[90m  8 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m\"input.new-todo\"\u001b[39m)\u001b[33m.\u001b[39mpress(\u001b[32m\"Enter\"\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  9 |\u001b[39m     \u001b[90m//await expect(page.locator(\".todo-list li\")).toContainText(\"Buy groceries\");\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\".ul.todo-list li\"\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m\"Buy groceries\"\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m\".todo-list li .toggle\"\u001b[39m)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m\".todo-list li.completed\"\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   })\u001b[33m;\u001b[39m"
                       },
                       "errors": [
                         {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
                           "location": {
                             "file": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts",
-                            "column": 43,
-                            "line": 7
+                            "column": 52,
+                            "line": 10
                           },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input.new-todo1')\u001b[22m\n\n\n   5 |   test(\"Adds and completes a todo\", async ({ page }) => {\n   6 |     await page.goto(\"https://demo.playwright.dev/todomvc\");\n>  7 |     await page.locator(\"input.new-todo1\").fill(\"Buy groceries\");\n     |                                           ^\n   8 |     await page.locator(\"input.new-todo\").press(\"Enter\");\n   9 |     await expect(page.locator(\".todo-list li\")).toContainText(\"Buy groceries\");\n  10 |     await page.locator(\".todo-list li .toggle\").click();\n    at C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts:7:43"
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.ul.todo-list li')\nExpected substring: \u001b[32m\"Buy groceries\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.ul.todo-list li') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.ul.todo-list li')\u001b[22m\n\n\n   8 |     await page.locator(\"input.new-todo\").press(\"Enter\");\n   9 |     //await expect(page.locator(\".todo-list li\")).toContainText(\"Buy groceries\");\n> 10 |     await expect(page.locator(\".ul.todo-list li\")).toContainText(\"Buy groceries\");\n     |                                                    ^\n  11 |     await page.locator(\".todo-list li .toggle\").click();\n  12 |     await expect(page.locator(\".todo-list li.completed\")).toBeVisible();\n  13 |   });\n    at C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts:10:52"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-11-12T08:36:21.548Z",
+                      "startTime": "2026-11-12T09:29:19.976Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -152,7 +155,12 @@
                           "contentType": "application/zip",
                           "path": "C:\\Users\\skaramala\\AutoScriptsAgent\\test-results\\generated-todomvc-Generate-ee6c4-s-Adds-and-completes-a-todo\\trace.zip"
                         }
-                      ]
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\skaramala\\AutoScriptsAgent\\tests\\generated\\todomvc.spec.ts",
+                        "column": 52,
+                        "line": 10
+                      }
                     }
                   ],
                   "status": "unexpected"
@@ -170,8 +178,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-11-12T08:36:20.831Z",
-    "duration": 31657.797,
+    "startTime": "2026-11-12T09:29:19.270Z",
+    "duration": 8383.833,
     "expected": 0,
     "skipped": 0,
     "unexpected": 1,
